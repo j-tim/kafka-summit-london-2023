@@ -1,0 +1,90 @@
+version: '3.9'
+
+services:
+
+  spring-kafka-consumer:
+    build: ./spring-kafka-consumer
+    container_name: spring-kafka-consumer
+    environment:
+      SPRING_PROFILES_ACTIVE: container
+      OTEL_SERVICE_NAME: "spring-kafka-consumer"
+      OTEL_EXPORTER_OTLP_ENDPOINT: "http://collector:4317"
+      OTEL_LOGS_EXPORTER: "otlp"
+      JAVA_OPTS: -javaagent:/usr/share/opentelemetry/opentelemetry-javaagent-1.25.0.jar
+      KAFKA_CONSUMER_CALL_DOWNSTREAM_SERVICE: "true"
+      MANAGEMENT_TRACING_ENABLED: "false"
+      MANAGEMENT_OTLP_METRICS_EXPORT_ENABLED: "false"
+    volumes:
+      - ./observability/opentelemetry/:/usr/share/opentelemetry
+    depends_on:
+      - collector
+
+  plain-kafka-consumer:
+    build: ./plain-kafka-consumer
+    container_name: plain-kafka-consumer
+    environment:
+      OTEL_SERVICE_NAME: "plain-kafka-consumer"
+      OTEL_EXPORTER_OTLP_ENDPOINT: "http://collector:4317"
+      OTEL_LOGS_EXPORTER: "otlp"
+      JAVA_OPTS: -javaagent:/usr/share/opentelemetry/opentelemetry-javaagent-1.25.0.jar
+    volumes:
+      - ./observability/opentelemetry/:/usr/share/opentelemetry
+    depends_on:
+      - collector
+
+  spring-kafka-producer:
+    build: ./spring-kafka-producer
+    container_name: spring-kafka-producer
+    environment:
+      SPRING_PROFILES_ACTIVE: container
+      OTEL_SERVICE_NAME: "spring-kafka-producer"
+      OTEL_EXPORTER_OTLP_ENDPOINT: "http://collector:4317"
+      OTEL_LOGS_EXPORTER: "otlp"
+      JAVA_OPTS: -javaagent:/usr/share/opentelemetry/opentelemetry-javaagent-1.25.0.jar
+      MANAGEMENT_TRACING_ENABLED: "false"
+      MANAGEMENT_OTLP_METRICS_EXPORT_ENABLED: "false"
+      KAFKA_PRODUCER_ENABLED: "false"
+      KAFKA_PRODUCER_RATE_MS: 10
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./observability/opentelemetry/:/usr/share/opentelemetry
+    depends_on:
+      - collector
+
+  spring-kafka-streams:
+    build: ./spring-kafka-streams
+    container_name: spring-kafka-streams
+    environment:
+      SPRING_PROFILES_ACTIVE: container
+      OTEL_SERVICE_NAME: "spring-kafka-streams"
+      OTEL_EXPORTER_OTLP_ENDPOINT: "http://collector:4317"
+      OTEL_LOGS_EXPORTER: "otlp"
+      MANAGEMENT_TRACING_ENABLED: "false"
+      MANAGEMENT_OTLP_METRICS_EXPORT_ENABLED: "false"
+      JAVA_OPTS: -javaagent:/usr/share/opentelemetry/opentelemetry-javaagent-1.25.0.jar
+    ports:
+      - "8083:8083"
+    volumes:
+      - ./observability/opentelemetry/:/usr/share/opentelemetry
+    depends_on:
+      - collector
+
+  shaky-downstream-service:
+    build: ./shaky-downstream-service
+    container_name: shaky-downstream-service
+    environment:
+      SPRING_PROFILES_ACTIVE: container
+      OTEL_SERVICE_NAME: "shaky-downstream-service"
+      OTEL_EXPORTER_OTLP_ENDPOINT: "http://collector:4317"
+      OTEL_LOGS_EXPORTER: "otlp"
+      JAVA_OPTS: -javaagent:/usr/share/opentelemetry/opentelemetry-javaagent-1.25.0.jar
+      MANAGEMENT_TRACING_ENABLED: "false"
+      MANAGEMENT_OTLP_METRICS_EXPORT_ENABLED: "false"
+      LOKI_HOST: "loki"
+    ports:
+      - "7999:7999"
+    volumes:
+      - ./observability/opentelemetry/:/usr/share/opentelemetry
+    depends_on:
+      - collector

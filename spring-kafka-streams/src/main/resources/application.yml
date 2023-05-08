@@ -1,0 +1,52 @@
+server:
+  port: 8083
+
+spring:
+  application:
+    name: spring-kafka-streams
+
+  kafka:
+    bootstrap-servers: localhost:9092
+
+    streams:
+      application-id: ${spring.application.name}
+      bootstrap-servers: ${spring.kafka.bootstrap-servers}
+      properties:
+        schema.registry.url: http://localhost:8081
+        default.key.serde: org.apache.kafka.common.serialization.Serdes$StringSerde
+        default.value.serde: io.confluent.kafka.streams.serdes.avro.SpecificAvroSerde
+        default.deserialization.exception.handler: org.apache.kafka.streams.errors.LogAndContinueExceptionHandler
+        # We set this property to a low value for demo purposes to publish to incoming stream of data out to
+        # the destination topic as soon as possible.
+        # Make sure to configure this property correctly for your production scenario
+        # default value: linger.ms: 100
+        linger.ms: 5
+management:
+  otlp:
+    metrics:
+      export:
+        url: "http://localhost:4318/v1/metrics"
+        resource-attributes:
+          service-name: ${spring.application.name}
+          service.name: ${spring.application.name}
+        enabled: false
+
+  tracing:
+    sampling:
+      probability: 1.0
+    enabled: false
+
+  # Open up all Spring Boot Actuator endpoints
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+  endpoint:
+    health:
+      show-details: always
+
+logging:
+  pattern:
+    # https://github.com/open-telemetry/opentelemetry-java-instrumentation/blob/main/docs/logger-mdc-instrumentation.md
+    level: '%5p [${spring.application.name:},%mdc{trace_id:-},%mdc{span_id:-}]'

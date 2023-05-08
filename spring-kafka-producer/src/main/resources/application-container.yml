@@ -1,0 +1,20 @@
+spring:
+  kafka:
+    bootstrap-servers: kafka:29092
+
+    properties:
+      schema.registry.url: http://schema-registry:8081
+
+management:
+  metrics:
+    tags:
+      env: docker
+
+  otlp:
+    metrics:
+      export:
+        url: "http://collector:4318/v1/metrics"
+    # Be aware this configuration is custom see: OpenTelemetryTracingProperties
+    # The properties are not mapped into configuration properties managed / autoconfigured by Spring Boot!
+    tracing:
+      endpoint: "http://collector:4317"

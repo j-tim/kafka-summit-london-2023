@@ -1,0 +1,29 @@
+# Docker compose file format 3.7 Required Docker Engine 18.06.0+
+# For more information see: https://docs.docker.com/compose/compose-file/compose-versioning/
+version: '3.9'
+
+services:
+
+  # The Spring Boot will publish Metrics and Traces to the OTEL collector
+  spring-kafka-consumer:
+    environment:
+      # Enable Spring Boot / Micrometer tracing and metrics when we run without the OTEL Java Agent
+      SPRING_PROFILES_ACTIVE: container, micrometer
+      MANAGEMENT_TRACING_ENABLED: true
+      MANAGEMENT_OTLP_METRICS_EXPORT_ENABLED: true
+      JAVA_OPTS: ""
+
+  spring-kafka-producer:
+    # Enable Spring Boot / Micrometer tracing and metrics when we run without the OTEL Java Agent
+    environment:
+      SPRING_PROFILES_ACTIVE: container, micrometer
+      MANAGEMENT_TRACING_ENABLED: true
+      MANAGEMENT_OTLP_METRICS_EXPORT_ENABLED: true
+      JAVA_OPTS: ""
+
+  spring-kafka-streams:
+    environment:
+      SPRING_PROFILES_ACTIVE: container, micrometer
+      MANAGEMENT_TRACING_ENABLED: true
+      MANAGEMENT_OTLP_METRICS_EXPORT_ENABLED: true
+      JAVA_OPTS: ""

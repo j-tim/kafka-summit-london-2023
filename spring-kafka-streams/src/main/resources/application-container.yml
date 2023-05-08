@@ -1,0 +1,13 @@
+spring:
+  kafka:
+    bootstrap-servers: kafka:29092
+
+    streams:
+      properties:
+        schema.registry.url: http://schema-registry:8081
+
+management:
+  otlp:
+    metrics:
+      export:
+        url: "http://collector:4318/v1/metrics"

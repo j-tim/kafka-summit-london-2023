@@ -1,0 +1,10 @@
+POST http://localhost:8080/api/quotes
+Content-Type: application/json
+
+{
+  "symbol": "KABOOM",
+  "exchange": "AMS",
+  "tradeValue": "101.99",
+  "currency": "EUR",
+  "description": "Trigger exception!"
+}

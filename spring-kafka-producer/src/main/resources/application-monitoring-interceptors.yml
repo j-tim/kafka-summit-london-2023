@@ -1,0 +1,5 @@
+spring:
+  kafka:
+    producer:
+      properties:
+        interceptor.classes: "io.confluent.monitoring.clients.interceptor.MonitoringProducerInterceptor"

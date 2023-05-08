@@ -1,0 +1,80 @@
+# Receivers section
+receivers:
+  otlp:
+    protocols:
+      grpc:
+      http:
+
+# Processors section
+processors:
+  memory_limiter:
+    check_interval: 1s
+    limit_percentage: 50
+    spike_limit_percentage: 30
+
+  batch:
+    send_batch_size: 8192
+    timeout: 10s
+
+  resource:
+    attributes:
+      - action: insert
+        key: loki.format
+        value: json
+
+# Exporters section
+exporters:
+  prometheus:
+    endpoint: "0.0.0.0:8889"
+    const_labels:
+      label1: value1
+  logging:
+    verbosity: detailed
+  loki:
+    endpoint: "http://loki:3100/loki/api/v1/push"
+  jaeger:
+    endpoint: jaeger:14250
+    tls:
+      insecure: true
+  otlp:
+    endpoint: "tempo:4317"
+    tls:
+      insecure: true
+  kafka:
+    encoding: "otlp_json"
+    brokers:
+      - "kafka:29092"
+    protocol_version: 2.0.0
+
+# Extentions section
+extensions:
+  health_check:
+  pprof:
+    endpoint: :1888
+  zpages:
+    endpoint: :55679
+
+# Services and pipelines
+service:
+  extensions: [pprof, zpages, health_check]
+  telemetry:
+    logs:
+      level: debug
+      initial_fields:
+        service: my-instance
+    metrics:
+      level: detailed
+      address: 0.0.0.0:8888
+  pipelines:
+    metrics:
+      receivers: [otlp]
+      processors: [memory_limiter, batch]
+      exporters: [logging, prometheus, kafka]
+    traces:
+      receivers: [otlp]
+      processors: [memory_limiter, batch]
+      exporters: [logging, jaeger, kafka, otlp]
+    logs:
+      receivers: [otlp]
+      processors: [memory_limiter, batch, resource]
+      exporters: [logging, kafka, loki]

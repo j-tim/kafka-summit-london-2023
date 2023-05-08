@@ -1,0 +1,62 @@
+spring:
+  application:
+    name: spring-kafka-producer
+
+  kafka:
+    bootstrap-servers: localhost:9092
+
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
+      client-id: ${spring.application.name}
+      properties:
+        enable.idempotence: true
+
+    properties:
+      schema.registry.url: http://localhost:8081
+
+management:
+  tracing:
+    sampling:
+      probability: 1.0
+    enabled: false
+
+  metrics:
+    tags:
+      application: ${spring.application.name}
+      env: local
+
+  otlp:
+    metrics:
+      export:
+        url: "http://localhost:4318/v1/metrics"
+        resource-attributes:
+          service-name: ${spring.application.name}
+          service.name: ${spring.application.name}
+        enabled: false
+    # Be aware this configuration is custom see: OpenTelemetryTracingProperties
+    # The properties are not mapped into configuration properties managed / autoconfigured by Spring Boot!
+    tracing:
+      endpoint: "http://localhost:4317"
+
+  # Open up all Spring Boot Actuator endpoints
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+  endpoint:
+    health:
+      show-details: always
+
+kafka:
+  producer:
+    enabled: true
+    # Produce a stock quote every 10 ms
+    rate:
+      ms: 10
+
+logging:
+  pattern:
+    # https://github.com/open-telemetry/opentelemetry-java-instrumentation/blob/main/docs/logger-mdc-instrumentation.md
+    level: '%5p [${spring.application.name:},%mdc{trace_id:-},%mdc{span_id:-}]'

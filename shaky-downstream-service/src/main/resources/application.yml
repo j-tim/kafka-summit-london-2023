@@ -1,0 +1,54 @@
+spring:
+  application:
+    name: shaky-downstream-service
+
+server:
+  port: 7999
+
+# Configure the fixed delay for the Rest API to respond
+shaky:
+  rest:
+    api:
+      delay-ms: 50
+
+
+management:
+  tracing:
+    sampling:
+      probability: 1.0
+    enabled: false
+
+  metrics:
+    tags:
+      application: ${spring.application.name}
+      env: local
+
+  otlp:
+    metrics:
+      export:
+        url: "http://localhost:4318/v1/metrics"
+        resource-attributes:
+          service-name: ${spring.application.name}
+          service.name: ${spring.application.name}
+        enabled: false
+    # Be aware this configuration is custom see: OpenTelemetryTracingProperties
+    # The properties are not mapped into configuration properties managed / autoconfigured by Spring Boot!
+    tracing:
+      endpoint: "http://localhost:4317"
+
+  # Open up all Spring Boot Actuator endpoints
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+  endpoint:
+    health:
+      show-details: always
+
+logging:
+  level:
+    root: info
+  pattern:
+    # https://github.com/open-telemetry/opentelemetry-java-instrumentation/blob/main/docs/logger-mdc-instrumentation.md
+    level: '%5p [${spring.application.name:},%mdc{trace_id:-},%mdc{span_id:-}]'
