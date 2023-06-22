@@ -4,6 +4,9 @@
 
 A practical deep dive into the Observability of Streaming Applications 
 
+* [Slides](https://speakerdeck.com/timvanbaarsen/kafka-summit-london-2023-hope-is-not-a-course-of-action)
+* [Recording](https://www.confluent.io/events/kafka-summit-london-2023/observability-of-streaming-applications/)
+
 Demo code base used during our Kafka Summit London 2023 talk.
 Speakers: Kosta Chuturkov & Tim van Baarsen 
 
