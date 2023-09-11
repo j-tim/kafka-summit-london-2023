@@ -13,16 +13,16 @@
   <name>plain-kafka-consumer</name>
 
   <properties>
-    <confluent.kafka.version>7.3.3</confluent.kafka.version>
+    <confluent.kafka.version>7.5.0</confluent.kafka.version>
     <maven.compiler.source>19</maven.compiler.source>
     <maven.compiler.target>19</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-    <logback-classic.version>1.4.6</logback-classic.version>
+    <logback-classic.version>1.4.11</logback-classic.version>
     <slf4j-api.version>2.0.7</slf4j-api.version>
-    <kafka-clients.version>3.4.0</kafka-clients.version>
+    <kafka-clients.version>3.5.1</kafka-clients.version>
     <otel.metrics.api.version>1.10.0-alpha-rc.1</otel.metrics.api.version>
-    <opentelemetry-api.version>1.25.0</opentelemetry-api.version>
+    <opentelemetry-api.version>1.29.0</opentelemetry-api.version>
   </properties>
 
   <dependencies>

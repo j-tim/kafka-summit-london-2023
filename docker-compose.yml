@@ -87,7 +87,7 @@ services:
 
   # https://www.jaegertracing.io/docs/next-release/getting-started/#all-in-one
   jaeger:
-    image: jaegertracing/all-in-one:1.44
+    image: jaegertracing/all-in-one:1.48
     container_name: jaeger
     restart: on-failure
     ports:
@@ -96,7 +96,7 @@ services:
       - "14250"          # HTTP collector proto
 
   loki:
-    image: grafana/loki:latest
+    image: grafana/loki:2.8.4
     container_name: loki
     ports:
       - "3100:3100"
@@ -105,7 +105,7 @@ services:
       - collector
 
   grafana:
-    image: grafana/grafana:latest
+    image: grafana/grafana:10.1.0
     container_name: grafana
     environment:
       - GF_AUTH_DISABLE_LOGIN_FORM=true
@@ -122,7 +122,7 @@ services:
       - loki
 
   collector:
-    image: otel/opentelemetry-collector-contrib:0.75.0
+    image: otel/opentelemetry-collector-contrib:0.84.0
     container_name: collector
     volumes:
       - ./observability/opentelemetry/collector/otel-config.yaml:/otel-config.yaml
@@ -146,7 +146,7 @@ services:
   # admin: username: admin@conduktor.io password: admin
   # user: username: user@conduktor.io password: user
   conduktor:
-    image: conduktor/conduktor-platform:1.14.0
+    image: conduktor/conduktor-platform:1.17.3
     hostname: conduktor
     container_name: conduktor
     healthcheck:
@@ -178,9 +178,11 @@ services:
       CDK_CLUSTERS_0_SCHEMAREGISTRY_URL: "http://schema-registry:8081"
 
   prometheus:
-    image: prom/prometheus:latest
+    image: prom/prometheus:v2.46.0
     container_name: prometheus
     restart: on-failure
+    depends_on:
+      - kafka-lag-exporter
     extra_hosts:
       - "host.docker.internal:host-gateway"
     # https://prometheus.io/docs/prometheus/latest/storage/#remote-storage-integrations
@@ -194,7 +196,7 @@ services:
       - "9090:9090"
 
   tempo:
-    image: grafana/tempo:latest
+    image: grafana/tempo:2.2.1
     container_name: tempo
     command: [ "-config.file=/etc/tempo.yml" ]
     healthcheck:

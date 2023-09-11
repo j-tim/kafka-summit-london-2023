@@ -10,7 +10,7 @@ services:
       OTEL_SERVICE_NAME: "spring-kafka-consumer"
       OTEL_EXPORTER_OTLP_ENDPOINT: "http://collector:4317"
       OTEL_LOGS_EXPORTER: "otlp"
-      JAVA_OPTS: -javaagent:/usr/share/opentelemetry/opentelemetry-javaagent-1.25.0.jar
+      JAVA_OPTS: -javaagent:/usr/share/opentelemetry/opentelemetry-javaagent-1.28.0.jar
       KAFKA_CONSUMER_CALL_DOWNSTREAM_SERVICE: "true"
       MANAGEMENT_TRACING_ENABLED: "false"
       MANAGEMENT_OTLP_METRICS_EXPORT_ENABLED: "false"
@@ -26,7 +26,7 @@ services:
       OTEL_SERVICE_NAME: "plain-kafka-consumer"
       OTEL_EXPORTER_OTLP_ENDPOINT: "http://collector:4317"
       OTEL_LOGS_EXPORTER: "otlp"
-      JAVA_OPTS: -javaagent:/usr/share/opentelemetry/opentelemetry-javaagent-1.25.0.jar
+      JAVA_OPTS: -javaagent:/usr/share/opentelemetry/opentelemetry-javaagent-1.29.0.jar
     volumes:
       - ./observability/opentelemetry/:/usr/share/opentelemetry
     depends_on:
@@ -40,7 +40,7 @@ services:
       OTEL_SERVICE_NAME: "spring-kafka-producer"
       OTEL_EXPORTER_OTLP_ENDPOINT: "http://collector:4317"
       OTEL_LOGS_EXPORTER: "otlp"
-      JAVA_OPTS: -javaagent:/usr/share/opentelemetry/opentelemetry-javaagent-1.25.0.jar
+      JAVA_OPTS: -javaagent:/usr/share/opentelemetry/opentelemetry-javaagent-1.29.0.jar
       MANAGEMENT_TRACING_ENABLED: "false"
       MANAGEMENT_OTLP_METRICS_EXPORT_ENABLED: "false"
       KAFKA_PRODUCER_ENABLED: "false"
@@ -62,7 +62,7 @@ services:
       OTEL_LOGS_EXPORTER: "otlp"
       MANAGEMENT_TRACING_ENABLED: "false"
       MANAGEMENT_OTLP_METRICS_EXPORT_ENABLED: "false"
-      JAVA_OPTS: -javaagent:/usr/share/opentelemetry/opentelemetry-javaagent-1.25.0.jar
+      JAVA_OPTS: -javaagent:/usr/share/opentelemetry/opentelemetry-javaagent-1.29.0.jar
     ports:
       - "8083:8083"
     volumes:
@@ -78,7 +78,7 @@ services:
       OTEL_SERVICE_NAME: "shaky-downstream-service"
       OTEL_EXPORTER_OTLP_ENDPOINT: "http://collector:4317"
       OTEL_LOGS_EXPORTER: "otlp"
-      JAVA_OPTS: -javaagent:/usr/share/opentelemetry/opentelemetry-javaagent-1.25.0.jar
+      JAVA_OPTS: -javaagent:/usr/share/opentelemetry/opentelemetry-javaagent-1.29.0.jar
       MANAGEMENT_TRACING_ENABLED: "false"
       MANAGEMENT_OTLP_METRICS_EXPORT_ENABLED: "false"
       LOKI_HOST: "loki"
