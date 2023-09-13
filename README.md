@@ -15,13 +15,13 @@ Speakers: Kosta Chuturkov & Tim van Baarsen
 
 ## Project modules and applications
 
-| Applications          | Port | Avro | Topic(s)                                                                                                  | Description                                                                                                |
-|-----------------------|-----|------|-----------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------|
-| spring-kafka-producer | 8080 | YES  | `stock-quotes`                                                                                            | Simple producer of random stock quotes using Spring Kafka & Apache Avro.                                   |
-| spring-kafka-consumer | 8082 | YES  | `stock-quotes`                                                                                            | Simple consumer of stock quotes using using Spring Kafka & Apache Avro.                                    |
-| spring-kafka-streams  | 8083 | YES  | `stock-quotes`, `stock-quotes-exchange-nyse`, `stock-quotes-exchange-nasdaq`, `stock-quotes-exchange-ams` | Simple Kafka Streams application using Spring Kafka & Apache Avro.                                         |
-| plain-kafka-consumer  | -   | YES  | `stock-quotes-exchange-nyse`, `stock-quotes-exchange-nasdaq`, `stock-quotes-exchange-ams`                 | Simple 'plain' Kafka consumer application                                                                  |
-| shaky-downstream-service  | 7999    | NO   | not using Kafka                                                                                           | Simple Spring Boot (slow and shaky) Rest API used to build up some artificial consumer lag in the consumer. |
+| Applications             | Port | Avro | Topic(s)                                                                                                  | Description                                                                                                |
+|--------------------------|------|------|------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------|
+| spring-kafka-producer    | 8080 | YES  | `stock-quotes`                                                                                            | Simple producer of random stock quotes using Spring Kafka & Apache Avro.                                   |
+| spring-kafka-consumer    | 8082 | YES  | `stock-quotes`                                                                                            | Simple consumer of stock quotes using using Spring Kafka & Apache Avro.                                    |
+| spring-kafka-streams     | 8083 | YES  | `stock-quotes`, `stock-quotes-exchange-nyse`, `stock-quotes-exchange-nasdaq`, `stock-quotes-exchange-ams` | Simple Kafka Streams application using Spring Kafka & Apache Avro.                                         |
+| plain-kafka-consumer     | -    | YES  | `stock-quotes-exchange-nyse`, `stock-quotes-exchange-nasdaq`, `stock-quotes-exchange-ams`                  | Simple 'plain' Kafka consumer application                                                                  |
+| shaky-downstream-service | 7999 | NO   | not using Kafka                                                                                    | Simple Spring Boot (slow and shaky) Rest API used to build up some artificial consumer lag in the consumer.|
 
 | Module     | Description                                                                                                                                                                                             |
 |------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -41,11 +41,11 @@ Note Confluent Schema Registry is running on port: `8081` using Docker see: [doc
 
 ## Version
 
-* Confluent Kafka: 7.3.x
-* Confluent Schema Registry: 7.3.x
+* Confluent Kafka: 7.5.x
+* Confluent Schema Registry: 7.5.x
 * Java: 19
-* Spring Boot: 3.0.6
-* Spring for Apache Kafka: 3.0.6
+* Spring Boot: 3.1.3
+* Spring for Apache Kafka: 3.0.10
 * Apache Avro: 1.11.x
 
 ## Build
